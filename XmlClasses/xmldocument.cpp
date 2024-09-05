@@ -48,7 +48,44 @@ XmlDocument XmlDocument::fromXml(const QByteArray &xml, QXmlStreamReader::Error 
         *error = reader.error();
         return XmlDocument();
     }
+    return readXml(reader, error);
+}
 
+XmlDocument XmlDocument::fromXml(const QString &xml, QXmlStreamReader::Error *error)
+{
+    QXmlStreamReader reader(xml);
+    if (reader.hasError())
+    {
+        *error = reader.error();
+        return XmlDocument();
+    }
+    return readXml(reader, error);
+}
+
+void XmlDocument::writeObject(QXmlStreamWriter *writer, const XmlObject &object) const
+{
+    writer->writeStartElement(object.name());
+    foreach (QString attrName, object.attributes().keys()) {
+        writer->writeAttribute(attrName, object.getAttribute(attrName));
+    }
+
+    for (int i = 0; i < object.size(); i++)
+    {
+        if (object.at(i).isObject())
+        {
+            writeObject(writer, object.at(i).toObject());
+        }
+        else if (object.at(i).isString())
+        {
+            writer->writeCharacters(object.at(i).toString());
+        }
+    }
+
+    writer->writeEndElement();
+}
+
+XmlDocument XmlDocument::readXml(QXmlStreamReader &reader, QXmlStreamReader::Error *error)
+{
     QStack<XmlObject> documentStack;
     std::optional<XmlObject> root {std::nullopt};
     XmlDocument resultDoc;
@@ -107,29 +144,5 @@ XmlDocument XmlDocument::fromXml(const QByteArray &xml, QXmlStreamReader::Error 
         }
         }
     }
-
-    return resultDoc;
-}
-
-void XmlDocument::writeObject(QXmlStreamWriter *writer, const XmlObject &object) const
-{
-    writer->writeStartElement(object.name());
-    foreach (QString attrName, object.attributes().keys()) {
-        writer->writeAttribute(attrName, object.getAttribute(attrName));
-    }
-
-    for (int i = 0; i < object.size(); i++)
-    {
-        if (object.at(i).isObject())
-        {
-            writeObject(writer, object.at(i).toObject());
-        }
-        else if (object.at(i).isString())
-        {
-            writer->writeCharacters(object.at(i).toString());
-        }
-    }
-
-    writer->writeEndElement();
 }
 }

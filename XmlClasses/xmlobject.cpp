@@ -44,12 +44,49 @@ void XmlObject::removeAttribute(const QString &key)
     m_attributes.remove(key);
 }
 
+XmlObject XmlObject::find(const QString &name) const
+{
+    for (int i = 0; i < m_children.size(); i++)
+    {
+        if (m_children.at(i).isObject() && m_children.at(i).toObject().name() == name)
+        {
+            return m_children.at(i).toObject();
+        }
+    }
+
+    return XmlObject();
+}
+
+XmlObject XmlObject::findR(const QString &name) const
+{
+    for (int i = 0; i < m_children.size(); i++)
+    {
+        if (m_children.at(i).isObject())
+        {
+            if(m_children.at(i).toObject().name() == name)
+            {
+                return m_children.at(i).toObject();
+            }
+            else
+            {
+                auto pair = m_children.at(i).toObject().findR_private(name);
+                if (pair.first)
+                {
+                    return pair.second;
+                }
+            }
+        }
+    }
+
+    return XmlObject();
+}
+
 XmlObject::operator QString() const
 {
     QString result = "<";
     result += m_name;
     foreach (QString attr, m_attributes.keys()) {
-        result += " " + attr + ":" + m_attributes.value(attr);
+        result += " " + attr + ":\"" + m_attributes.value(attr) + "\"";
     }
 
     if (m_children.isEmpty())
@@ -74,5 +111,29 @@ XmlObject::operator QString() const
     }
 
     return result;
+}
+
+QPair<bool, XmlObject> XmlObject::findR_private(const QString &name) const
+{
+    for (int i = 0; i < m_children.size(); i++)
+    {
+        if (m_children.at(i).isObject())
+        {
+            if(m_children.at(i).toObject().name() == name)
+            {
+                return {true, m_children.at(i).toObject()};
+            }
+            else
+            {
+                auto pair = m_children.at(i).toObject().findR_private(name);
+                if (pair.first)
+                {
+                    return pair;
+                }
+            }
+        }
+    }
+
+    return {false, XmlObject()};
 }
 }

@@ -28,12 +28,15 @@ public:
     QByteArray toXml(QString codec, bool autoFormatting = false);
 
     static XmlDocument fromXml(const QByteArray &xml, QXmlStreamReader::Error *error = nullptr);
+    static XmlDocument fromXml(const QString    &xml, QXmlStreamReader::Error *error = nullptr);
 
 private:
     QTextCodec *m_codec;
     XmlObject m_root;
 
     void writeObject(QXmlStreamWriter *writer, const XmlObject &object) const;
+
+    static XmlDocument readXml(QXmlStreamReader &reader, QXmlStreamReader::Error *error);
 };
 }
 

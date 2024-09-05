@@ -41,6 +41,9 @@ public:
     void insert(int i, const XmlObject &obj)  {m_children.insert(i, XmlValue(obj));}
     void insert(int i, const QString &string) {m_children.insert(i, XmlValue(string));}
 
+    XmlObject find(const QString &name) const;
+    XmlObject findR(const QString &name) const;
+
     void clear() {m_children.clear();}
     ///
 
@@ -51,6 +54,8 @@ private:
     QHash<QString, QString> m_attributes;
 
     QList<XmlValue> m_children;
+
+    QPair<bool, XmlObject> findR_private(const QString &name) const;
 };
 }
 
