@@ -101,6 +101,10 @@ XmlDocument XmlDocument::fromXml(const QByteArray &xml, QXmlStreamReader::Error 
                 return resultDoc;
             }
         }
+        default:
+        {
+            qCritical() << "unhandled token" << reader.tokenString();
+        }
         }
     }
 
