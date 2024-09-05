@@ -44,6 +44,9 @@ public:
     XmlObject find(const QString &name) const;
     XmlObject findR(const QString &name) const;
 
+    QList<XmlObject> findAll(const QString &name) const;
+    QList<XmlObject> findAllR(const QString &name) const;
+
     void clear() {m_children.clear();}
     ///
 

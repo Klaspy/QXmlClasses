@@ -81,6 +81,39 @@ XmlObject XmlObject::findR(const QString &name) const
     return XmlObject();
 }
 
+QList<XmlObject> XmlObject::findAll(const QString &name) const
+{
+    QList<XmlObject> resultList;
+    for (int i = 0; i < m_children.size(); i++)
+    {
+        if (m_children.at(i).isObject() && m_children.at(i).toObject().name() == name)
+        {
+            resultList.append(m_children.at(i).toObject());
+        }
+    }
+
+    return resultList;
+}
+
+QList<XmlObject> XmlObject::findAllR(const QString &name) const
+{
+    QList<XmlObject> resultList;
+    for (int i = 0; i < m_children.size(); i++)
+    {
+        if (m_children.at(i).isObject())
+        {
+            if (m_children.at(i).toObject().name() == name)
+            {
+                resultList.append(m_children.at(i).toObject());
+            }
+
+            resultList.append(m_children.at(i).toObject().findAllR(name));
+        }
+    }
+
+    return resultList;
+}
+
 XmlObject::operator QString() const
 {
     QString result = "<";
