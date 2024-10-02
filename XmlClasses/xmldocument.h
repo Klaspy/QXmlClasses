@@ -7,7 +7,8 @@
 #include <QStack>
 
 #include "xmlobject.h"
-// QXmlStreamWriter
+#include "xmlprocessInstruction.h"
+
 namespace XmlClasses
 {
 
@@ -25,7 +26,7 @@ public:
 
     // QJsonDocument QXmlStreamWriter
     QByteArray toXml(bool autoFormatting = false) const;
-    QByteArray toXml(QString codec, bool autoFormatting = false);
+    QByteArray toXml(QString codec, bool autoFormatting);
 
     static XmlDocument fromXml(const QByteArray &xml, QXmlStreamReader::Error *error = nullptr);
     static XmlDocument fromXml(const QString    &xml, QXmlStreamReader::Error *error = nullptr);

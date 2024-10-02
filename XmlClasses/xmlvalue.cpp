@@ -14,14 +14,10 @@ XmlValue::XmlValue(const XmlObject &object) :
     m_value = QVariant::fromValue(object);
 }
 
-bool XmlValue::isString() const
+XmlValue::XmlValue(const XmlProcessInstruction &pi) :
+    m_type {Type::XmlPI}
 {
-    return m_type == Type::String;
-}
-
-bool XmlValue::isObject() const
-{
-    return m_type == Type::Object;
+    m_value = QVariant::fromValue(pi);
 }
 
 XmlValue::Type XmlValue::type() const
@@ -50,6 +46,18 @@ XmlObject XmlValue::toObject() const
     else
     {
         return XmlObject();
+    }
+}
+
+XmlProcessInstruction XmlValue::toInstruction() const
+{
+    if (m_type == Type::XmlPI)
+    {
+        return m_value.value<XmlProcessInstruction>();
+    }
+    else
+    {
+        return XmlProcessInstruction();
     }
 }
 

@@ -23,7 +23,6 @@ QByteArray XmlDocument::toXml(bool autoFormatting) const
 {
     QByteArray outputXml;
     QXmlStreamWriter writer(&outputXml);
-    qDebug() << writer.codec()->name();
     writer.setCodec(m_codec);
     writer.setAutoFormatting(autoFormatting);
 
@@ -79,6 +78,11 @@ void XmlDocument::writeObject(QXmlStreamWriter *writer, const XmlObject &object)
         {
             writer->writeCharacters(object.at(i).toString());
         }
+        else if (object.at(i).isPI())
+        {
+            const XmlProcessInstruction &pi = object.at(i).toInstruction();
+            writer->writeProcessingInstruction(pi.target(), pi.data());
+        }
     }
 
     writer->writeEndElement();
@@ -87,24 +91,33 @@ void XmlDocument::writeObject(QXmlStreamWriter *writer, const XmlObject &object)
 XmlDocument XmlDocument::readXml(QXmlStreamReader &reader, QXmlStreamReader::Error *error)
 {
     QStack<XmlObject> documentStack;
-    std::optional<XmlObject> root {std::nullopt};
     XmlDocument resultDoc;
 
-    QString n;
+    if (error != nullptr)
+    {
+        *error = QXmlStreamReader::NoError;
+    }
+
     while (reader.readNext())
     {
-        n = reader.name().toString();
         switch (reader.tokenType())
         {
-        case QXmlStreamReader::Invalid:
-        {
-            *error = reader.error();
-            return XmlDocument();
-        }
         case QXmlStreamReader::StartDocument:
         {
             resultDoc.setCodec(reader.documentEncoding().toString());
             break;
+        }
+        case QXmlStreamReader::EndDocument:
+        {
+            if (documentStack.isEmpty())
+            {
+                return XmlDocument();
+            }
+            else
+            {
+                resultDoc.setObject(documentStack.first());
+                return resultDoc;
+            }
         }
         case QXmlStreamReader::StartElement:
         {
@@ -116,6 +129,15 @@ XmlDocument XmlDocument::readXml(QXmlStreamReader &reader, QXmlStreamReader::Err
             documentStack.push(object);
             break;
         }
+        case QXmlStreamReader::EndElement:
+        {
+            if (documentStack.size() > 1)
+            {
+                XmlObject object = documentStack.pop();
+                documentStack.top().append(object);
+            }
+            break;
+        }
         case QXmlStreamReader::Characters:
         {
             if (!reader.isWhitespace())
@@ -124,25 +146,37 @@ XmlDocument XmlDocument::readXml(QXmlStreamReader &reader, QXmlStreamReader::Err
             }
             break;
         }
-        case QXmlStreamReader::EndElement:
+        case QXmlStreamReader::ProcessingInstruction:
         {
-            XmlObject object = documentStack.pop();
-            if (documentStack.size() > 0)
+            if (!documentStack.empty())
             {
-                documentStack.top().append(object);
-                break;
+                XmlProcessInstruction pi(reader.processingInstructionTarget().toString(),
+                                         reader.processingInstructionData().toString());
+                documentStack.top().append(pi);
             }
-            else
+            break;
+        }
+        case QXmlStreamReader::Invalid:
+        {
+            qCritical() << "QXmlDocument: error while parsing data:" << reader.errorString()
+                        << "; line" << reader.lineNumber() << ", column" << reader.columnNumber();
+            if (error != nullptr)
             {
-                resultDoc.setObject(object);
-                return resultDoc;
+                *error = reader.error();
             }
+            return XmlDocument();
         }
         default:
         {
-            qCritical() << "unhandled token" << reader.tokenString();
+            if (reader.tokenType() != QXmlStreamReader::Comment)
+            {
+                qCritical() << "unresolved token" << reader.tokenString()
+                            << "; line" << reader.lineNumber() << ", column" << reader.columnNumber();
+            }
         }
         }
     }
+
+    return XmlDocument();
 }
 }

@@ -10,10 +10,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 SOURCES += \
     XmlClasses/xmldocument.cpp \
     XmlClasses/xmlobject.cpp \
+    XmlClasses/xmlprocessInstruction.cpp \
     XmlClasses/xmlvalue.cpp \
     main.cpp
 
 HEADERS += \
     XmlClasses/xmldocument.h \
     XmlClasses/xmlobject.h \
+    XmlClasses/xmlprocessInstruction.h \
     XmlClasses/xmlvalue.h

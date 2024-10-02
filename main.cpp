@@ -1,7 +1,4 @@
 #include <QCoreApplication>
-#include <QElapsedTimer>
-#include <QDebug>
-#include <QFile>
 
 #include "XmlClasses/xmldocument.h"
 
