@@ -26,14 +26,14 @@ public:
     ///
 
     /// children manipulate functions
-    int size() const              {return m_children.size();}
-    bool isEmpty() const          {return m_children.isEmpty();}
-    XmlValue at(int i) const      {return m_children.at(i);}
-    XmlValue &operator[](int i)   {return m_children[i];}
-    XmlValue &first()             {return m_children.first();}
-    const XmlValue &first() const {return m_children.first();}
-    XmlValue &last()              {return m_children.last();}
-    const XmlValue &last() const  {return m_children.last();}
+    int size() const                {return m_children.size();}
+    bool isEmpty() const            {return m_children.isEmpty();}
+    const XmlValue &at(int i) const {return m_children.at(i);}
+    XmlValue &operator[](int i)     {return m_children[i];}
+    XmlValue &first()               {return m_children.first();}
+    const XmlValue &first() const   {return m_children.first();}
+    XmlValue &last()                {return m_children.last();}
+    const XmlValue &last() const    {return m_children.last();}
 
     void append(const XmlObject &obj)                            {m_children.append(XmlValue(obj));}
     void append(const QString &string)                           {m_children.append(XmlValue(string));}
