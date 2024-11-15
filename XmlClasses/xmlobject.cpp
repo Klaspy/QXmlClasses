@@ -8,7 +8,7 @@ XmlObject::XmlObject() {}
 XmlObject::XmlObject(const QString &name) :
     m_name {name}
 {
-    QRegExp nameExp("[A-Za-z_-]+");
+    QRegExp nameExp("[A-Za-z_-]?[0-9A-Za-z_-]+");
     if (!nameExp.exactMatch(m_name))
     {
         m_name = "name";
