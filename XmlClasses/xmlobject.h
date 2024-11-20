@@ -56,12 +56,18 @@ public:
     QList<XmlObject> findAll(const QString &name) const;
     QList<XmlObject> findAllR(const QString &name) const;
 
+    bool contains(const QString &name) const;
+    bool containsR(const QString &name) const;
+
     void clear() {m_children.clear();}
     ///
 
     operator QString() const;
 
     QStringList text() const;
+
+    // get structure of object and its children (return object name and atribute name without current values)
+    QString getStructure() const;
 
 private:
     QString m_name {"name"};

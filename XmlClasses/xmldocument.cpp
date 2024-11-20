@@ -142,7 +142,8 @@ XmlDocument XmlDocument::readXml(QXmlStreamReader &reader, QXmlStreamReader::Err
         {
             if (!reader.isWhitespace())
             {
-                documentStack.top().append(reader.text().toString());
+                QString text = reader.text().toString();
+                documentStack.top().append(text);
             }
             break;
         }

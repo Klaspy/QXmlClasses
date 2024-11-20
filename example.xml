@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--expamle xml file-->
+<root>
+    <attributesElement attr1="value" attr2="505"/>
+    some string
+    <?exampleInstruction instruction data?>
+    <combinedElement>
+        <children/>
+        text
+        <children id="1"/>
+        <children id="2"/>
+    </combinedElement>
+</root>

@@ -19,3 +19,6 @@ HEADERS += \
     XmlClasses/xmlobject.h \
     XmlClasses/xmlprocessInstruction.h \
     XmlClasses/xmlvalue.h
+
+RESOURCES += \
+    example.qrc

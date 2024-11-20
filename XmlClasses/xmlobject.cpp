@@ -118,6 +118,43 @@ QList<XmlObject> XmlObject::findAllR(const QString &name) const
     return resultList;
 }
 
+bool XmlObject::contains(const QString &name) const
+{
+    for (int i = 0; i < m_children.size(); i++)
+    {
+        if (m_children.at(i).isObject() && m_children.at(i).toObject().name() == name)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool XmlObject::containsR(const QString &name) const
+{
+    for (int i = 0; i < m_children.size(); i++)
+    {
+        if (m_children.at(i).isObject())
+        {
+            if(m_children.at(i).toObject().name() == name)
+            {
+                return true;
+            }
+            else
+            {
+                auto pair = m_children.at(i).toObject().findR_private(name);
+                if (pair.first)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
 XmlObject::operator QString() const
 {
     QString result = "<" + m_name;
@@ -163,6 +200,42 @@ QStringList XmlObject::text() const
         {
             result.append(value.toString());
         }
+    }
+
+    return result;
+}
+
+QString XmlObject::getStructure() const
+{
+    QString result = "<" + m_name;
+    for (QHash<QString, QString>::const_iterator i = m_attributes.constBegin(); i != m_attributes.constEnd(); ++i)
+    {
+        result += " " + i.key();
+    }
+
+    if (m_children.isEmpty())
+    {
+        result += "/>";
+    }
+    else
+    {
+        result += ">";
+        for (int i = 0; i < m_children.size(); i++)
+        {
+            if (m_children.at(i).isObject())
+            {
+                result += m_children.at(i).toObject().getStructure();
+            }
+            else if (m_children.at(i).isString())
+            {
+                result += "string";
+            }
+            else if (m_children.at(i).isPI())
+            {
+                result += "<?process instruction?>";
+            }
+        }
+        result += "</" + m_name + ">";
     }
 
     return result;
