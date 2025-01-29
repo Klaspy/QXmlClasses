@@ -39,7 +39,7 @@ QByteArray XmlDocument::toXml(QString codec, bool autoFormatting)
     return toXml(autoFormatting);
 }
 
-XmlDocument XmlDocument::fromXml(const QByteArray &xml, QXmlStreamReader::Error *error)
+XmlDocument XmlDocument::fromXml(const QByteArray &xml, XmlParseError *error)
 {
     QXmlStreamReader reader(xml);
     if (reader.hasError())
@@ -50,7 +50,7 @@ XmlDocument XmlDocument::fromXml(const QByteArray &xml, QXmlStreamReader::Error 
     return readXml(reader, error);
 }
 
-XmlDocument XmlDocument::fromXml(const QString &xml, QXmlStreamReader::Error *error)
+XmlDocument XmlDocument::fromXml(const QString &xml, XmlParseError *error)
 {
     QXmlStreamReader reader(xml);
     if (reader.hasError())
@@ -88,14 +88,17 @@ void XmlDocument::writeObject(QXmlStreamWriter *writer, const XmlObject &object)
     writer->writeEndElement();
 }
 
-XmlDocument XmlDocument::readXml(QXmlStreamReader &reader, QXmlStreamReader::Error *error)
+XmlDocument XmlDocument::readXml(QXmlStreamReader &reader, XmlParseError *error)
 {
     QStack<XmlObject> documentStack;
     XmlDocument resultDoc;
 
     if (error != nullptr)
     {
-        *error = QXmlStreamReader::NoError;
+        *error->error  = QXmlStreamReader::NoError;
+        *error->text   = "";
+        *error->line   = -1;
+        *error->column = -1;
     }
 
     while (reader.readNext())
@@ -163,7 +166,10 @@ XmlDocument XmlDocument::readXml(QXmlStreamReader &reader, QXmlStreamReader::Err
                         << "; line" << reader.lineNumber() << ", column" << reader.columnNumber();
             if (error != nullptr)
             {
-                *error = reader.error();
+                *error->error  = reader.error();
+                *error->text   = reader.errorString();
+                *error->line   = reader.lineNumber();
+                *error->column = reader.columnNumber();
             }
             return XmlDocument();
         }

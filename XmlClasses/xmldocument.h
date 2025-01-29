@@ -12,6 +12,15 @@
 namespace XmlClasses
 {
 
+struct XmlParseError
+{
+    QXmlStreamReader::Error error {QXmlStreamReader::NoError};
+    QString text;
+
+    int line {-1};
+    int column {-1};
+};
+
 class XmlDocument
 {
 public:
@@ -28,8 +37,8 @@ public:
     QByteArray toXml(bool autoFormatting = false) const;
     QByteArray toXml(QString codec, bool autoFormatting);
 
-    static XmlDocument fromXml(const QByteArray &xml, QXmlStreamReader::Error *error = nullptr);
-    static XmlDocument fromXml(const QString    &xml, QXmlStreamReader::Error *error = nullptr);
+    static XmlDocument fromXml(const QByteArray &xml, XmlParseError *error = nullptr);
+    static XmlDocument fromXml(const QString    &xml, XmlParseError *error = nullptr);
 
 private:
     QTextCodec *m_codec;
@@ -37,7 +46,7 @@ private:
 
     void writeObject(QXmlStreamWriter *writer, const XmlObject &object) const;
 
-    static XmlDocument readXml(QXmlStreamReader &reader, QXmlStreamReader::Error *error);
+    static XmlDocument readXml(QXmlStreamReader &reader, XmlParseError *error);
 };
 }
 
