@@ -41,10 +41,16 @@ QByteArray XmlDocument::toXml(QString codec, bool autoFormatting)
 
 XmlDocument XmlDocument::fromXml(const QByteArray &xml, XmlParseError *error)
 {
+    error->error  = QXmlStreamReader::NoError;
+    error->text   = "";
+    error->line   = -1;
+    error->column = -1;
+
     QXmlStreamReader reader(xml);
     if (reader.hasError())
     {
-        *error = reader.error();
+        error->error = reader.error();
+        error->text  = reader.text().toString();
         return XmlDocument();
     }
     return readXml(reader, error);
@@ -52,10 +58,16 @@ XmlDocument XmlDocument::fromXml(const QByteArray &xml, XmlParseError *error)
 
 XmlDocument XmlDocument::fromXml(const QString &xml, XmlParseError *error)
 {
+    error->error  = QXmlStreamReader::NoError;
+    error->text   = "";
+    error->line   = -1;
+    error->column = -1;
+
     QXmlStreamReader reader(xml);
     if (reader.hasError())
     {
-        *error = reader.error();
+        error->error = reader.error();
+        error->text  = reader.text().toString();
         return XmlDocument();
     }
     return readXml(reader, error);
@@ -92,14 +104,6 @@ XmlDocument XmlDocument::readXml(QXmlStreamReader &reader, XmlParseError *error)
 {
     QStack<XmlObject> documentStack;
     XmlDocument resultDoc;
-
-    if (error != nullptr)
-    {
-        *error->error  = QXmlStreamReader::NoError;
-        *error->text   = "";
-        *error->line   = -1;
-        *error->column = -1;
-    }
 
     while (reader.readNext())
     {
@@ -166,10 +170,10 @@ XmlDocument XmlDocument::readXml(QXmlStreamReader &reader, XmlParseError *error)
                         << "; line" << reader.lineNumber() << ", column" << reader.columnNumber();
             if (error != nullptr)
             {
-                *error->error  = reader.error();
-                *error->text   = reader.errorString();
-                *error->line   = reader.lineNumber();
-                *error->column = reader.columnNumber();
+                error->error  = reader.error();
+                error->text   = reader.errorString();
+                error->line   = reader.lineNumber();
+                error->column = reader.columnNumber();
             }
             return XmlDocument();
         }
