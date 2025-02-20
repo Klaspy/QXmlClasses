@@ -2,7 +2,7 @@
 #include <QFile>
 #include <QDebug>
 
-#include "XmlClasses/xmldocument.h"
+#include <xmldocument.h>
 
 using namespace XmlClasses;
 
@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 
     QFile inputXml(":/example.xml");
     inputXml.open(QIODevice::ReadOnly);
-    XmlDocument document = XmlDocument::fromXml(inputXml.readAll());
+    XmlDocument document = XmlDocument::fromXml(inputXml.readAll(), nullptr);
     inputXml.close();
     QByteArray readedXml = document.toXml(true);
     qInfo() << "readed xml from file:\n" << readedXml.data();
