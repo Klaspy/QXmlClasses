@@ -5,7 +5,11 @@
 #include <QRegExp>
 #include <QObject>
 
-#include "XmlClassesGlobal.h"
+#if defined(XML_CLASSES_LIBRARY)
+#define XML_CLASSES_EXPORT Q_DECL_EXPORT
+#else
+#define XML_CLASSES_EXPORT Q_DECL_IMPORT
+#endif
 
 namespace XmlClasses
 {
