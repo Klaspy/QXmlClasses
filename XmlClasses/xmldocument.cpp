@@ -5,25 +5,33 @@
 namespace XmlClasses
 {
 XmlDocument::XmlDocument() {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0 ,0)
     m_codec = QTextCodec::codecForName("UTF-8");
+#endif
 }
 
 XmlDocument::XmlDocument(const XmlObject &root) :
     m_root (root)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0 ,0)
     m_codec = QTextCodec::codecForName("UTF-8");
+#endif
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0 ,0)
 void XmlDocument::setCodec(const QString &newCodecName)
 {
     m_codec = QTextCodec::codecForName(newCodecName.toUtf8());
 }
+#endif
 
 QByteArray XmlDocument::toXml(bool autoFormatting) const
 {
     QByteArray outputXml;
     QXmlStreamWriter writer(&outputXml);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0 ,0)
     writer.setCodec(m_codec);
+#endif
     writer.setAutoFormatting(autoFormatting);
 
     writer.writeStartDocument();
@@ -33,11 +41,13 @@ QByteArray XmlDocument::toXml(bool autoFormatting) const
     return outputXml;
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0 ,0)
 QByteArray XmlDocument::toXml(QString codec, bool autoFormatting)
 {
     setCodec(codec);
     return toXml(autoFormatting);
 }
+#endif
 
 XmlDocument XmlDocument::fromXml(const QByteArray &xml, XmlParseError *error)
 {
@@ -123,7 +133,9 @@ XmlDocument XmlDocument::readXml(QXmlStreamReader &reader, XmlParseError *error)
         {
         case QXmlStreamReader::StartDocument:
         {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0 ,0)
             resultDoc.setCodec(reader.documentEncoding().toString());
+#endif
             break;
         }
         case QXmlStreamReader::EndDocument:

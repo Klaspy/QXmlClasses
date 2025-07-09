@@ -1,7 +1,6 @@
 #ifndef XMLDOCUMENT_H
 #define XMLDOCUMENT_H
 
-#include <QTextCodec>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <QStack>
@@ -29,18 +28,24 @@ public:
     XmlObject object() const { return m_root;}
     void setObject(const XmlObject &object) {m_root = object;}
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0 ,0)
     QString codec() const { return m_codec->name();}
     void setCodec(const QString &newCodecName);
+#endif
 
     // QJsonDocument QXmlStreamWriter
     QByteArray toXml(bool autoFormatting = false) const;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0 ,0)
     QByteArray toXml(QString codec, bool autoFormatting);
+#endif
 
     static XmlDocument fromXml(const QByteArray &xml, XmlParseError *error = nullptr);
     static XmlDocument fromXml(const QString    &xml, XmlParseError *error = nullptr);
 
 private:
+#if QT_VERSION < QT_VERSION_CHECK(6, 0 ,0)
     QTextCodec *m_codec;
+#endif
     XmlObject m_root;
 
     void writeObject(QXmlStreamWriter *writer, const XmlObject &object) const;

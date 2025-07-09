@@ -2,7 +2,7 @@
 #define XMLOBJECT_H
 
 #include <QHash>
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include "xmlvalue.h"
 
@@ -74,6 +74,9 @@ private:
     QHash<QString, QString> m_attributes;
 
     QList<XmlValue> m_children;
+
+    static QRegularExpression nameExp;
+    static QRegularExpression attrExp;
 
     QPair<bool, XmlObject> findR_private(const QString &name) const;
 

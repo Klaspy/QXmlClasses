@@ -1,4 +1,4 @@
-QT = core
+QT = core core5compat
 
 CONFIG += c++17
 

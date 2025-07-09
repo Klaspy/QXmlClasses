@@ -39,7 +39,7 @@ public:
 private:
     XmlValue();
 
-    QVariant m_value {QVariant::Invalid};
+    QVariant m_value;
 
     Type m_type;
 };

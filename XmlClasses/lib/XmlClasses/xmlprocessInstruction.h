@@ -2,7 +2,7 @@
 #define XMLPROCESSINSTRUCTION_H
 
 #include <QString>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QObject>
 
 #if defined(XML_CLASSES_LIBRARY)
@@ -31,6 +31,8 @@ public:
 private:
     QString m_target;
     QString m_data;
+
+    static QRegularExpression targetRegExp;
 };
 }
 

@@ -3,13 +3,16 @@
 
 namespace XmlClasses
 {
+
+QRegularExpression XmlObject::nameExp = QRegularExpression("^[А-Яа-яЁёA-Za-z_:]{1}[А-Яа-яЁёA-Za-z0-9_.-:]*$");
+QRegularExpression XmlObject::attrExp = QRegularExpression("^[А-Яа-яЁёA-Za-z_:]{1}[А-Яа-яЁёA-Za-z0-9_.-:]*$");
+
 XmlObject::XmlObject() {}
 
 XmlObject::XmlObject(const QString &name) :
     m_name {name}
 {
-    QRegExp nameExp("[A-Za-z_-]?[0-9A-Za-z_-]+");
-    if (!nameExp.exactMatch(m_name))
+    if (!nameExp.match(m_name).hasMatch())
     {
         m_name = "name";
     }
@@ -19,8 +22,7 @@ XmlObject::XmlObject(const QString &name, std::initializer_list<std::pair<QStrin
     m_name {name},
     m_attributes {attributes}
 {
-    QRegExp nameExp("[A-Za-z_:][A-Za-z0-9_.-]*");
-    if (!nameExp.exactMatch(m_name))
+    if (!nameExp.match(m_name).hasMatch())
     {
         m_name = "name";
     }
@@ -30,8 +32,7 @@ XmlObject::XmlObject(const QString &name, std::initializer_list<std::pair<QStrin
 
 void XmlObject::setName(const QString &newName)
 {
-    QRegExp nameExp("[A-Za-z_:][A-Za-z0-9_.-]*");
-    if (nameExp.exactMatch(newName))
+    if (nameExp.match(newName).hasMatch())
     {
         m_name = newName;
     }
@@ -41,8 +42,7 @@ void XmlObject::setName(const QString &newName)
 
 void XmlObject::setAttribute(const QString &key, const QString &value)
 {
-    QRegExp attrExp("[A-Za-z_][A-Za-z0-9_-]*");
-    if (attrExp.exactMatch(key))
+    if (attrExp.match(key).hasMatch())
     {
         m_attributes.insert(key, value);
     }
@@ -267,9 +267,8 @@ QPair<bool, XmlObject> XmlObject::findR_private(const QString &name) const
 
 void XmlObject::validateAttrs()
 {
-    QRegExp attrExp("[A-Za-z_][A-Za-z0-9_-]*");
     foreach (QString attr, m_attributes.keys()) {
-        if (!attrExp.exactMatch(attr))
+        if (!attrExp.match(attr).hasMatch())
         {
             m_attributes.remove(attr);
         }

@@ -3,6 +3,8 @@
 namespace XmlClasses
 {
 
+QRegularExpression XmlProcessInstruction::targetRegExp = QRegularExpression("^[A-Za-z_-]+$");
+
 XmlProcessInstruction::XmlProcessInstruction() :
     m_target {"undefined"},
     m_data {""}
@@ -12,8 +14,7 @@ XmlProcessInstruction::XmlProcessInstruction(QString target, QString data) :
     m_target {target},
     m_data {data}
 {
-    QRegExp targetRegExp("[A-Za-z_-]+");
-    if (!targetRegExp.exactMatch(m_target))
+    if (!targetRegExp.match(m_target).hasMatch())
     {
         m_target = "undefined";
     }
@@ -21,8 +22,7 @@ XmlProcessInstruction::XmlProcessInstruction(QString target, QString data) :
 
 void XmlProcessInstruction::setTarget(const QString &newTarget)
 {
-    QRegExp targetRegExp("[A-Za-z_-]+");
-    if (targetRegExp.exactMatch(newTarget))
+    if (targetRegExp.match(newTarget).hasMatch())
     {
         m_target = newTarget;
     }
