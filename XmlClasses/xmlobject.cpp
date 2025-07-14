@@ -160,7 +160,7 @@ XmlObject::operator QString() const
     QString result = "<" + m_name;
     for (QHash<QString, QString>::const_iterator i = m_attributes.constBegin(); i != m_attributes.constEnd(); ++i)
     {
-        result += " " + i.key() + "=" + i.value();
+        result += " " + i.key() + "=\"" + i.value() + "\"";
     }
 
     if (m_children.isEmpty())
