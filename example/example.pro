@@ -13,9 +13,9 @@ SOURCES += \
 RESOURCES += \
     example.qrc
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../XmlClasses/lib/XmlClasses/ -lXmlClasses
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../XmlClasses/lib/XmlClasses/ -lXmlClassesd
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../lib/XmlClasses/lib/ -lXmlClasses
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../lib/XmlClasses/lib/ -lXmlClassesd
 else:unix:!macx: LIBS += -L$$PWD/../XmlClasses/ -lXmlClasses
 
-INCLUDEPATH += $$PWD/../XmlClasses
-DEPENDPATH += $$PWD/../XmlClasses
+INCLUDEPATH += $$PWD/../lib/XmlClasses/include
+DEPENDPATH += $$PWD/../lib/XmlClasses/include
