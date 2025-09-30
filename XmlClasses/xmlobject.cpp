@@ -275,7 +275,7 @@ void XmlObject::validateAttrs()
     }
 }
 
-bool operator ==(const XmlObject &object1, const XmlObject &object2) noexcept
+bool operator==(const XmlObject &object1, const XmlObject &object2) noexcept
 {
     if (object1.attributes() != object2.attributes() || object1.size() != object2.size())
         return false;
@@ -290,7 +290,7 @@ bool operator ==(const XmlObject &object1, const XmlObject &object2) noexcept
     return true;
 }
 
-bool operator !=(const XmlObject &object1, const XmlObject &object2) noexcept
+bool operator!=(const XmlObject &object1, const XmlObject &object2) noexcept
 {
     if (object1.attributes() != object2.attributes() || object1.size() != object2.size())
         return true;

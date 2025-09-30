@@ -14,6 +14,8 @@ else {
 }
 
 # message($$PWD/xmldocument.h $$DESTDIR/)
+QMAKE_POST_LINK += powershell -command "mkdir -p $$PWD/../lib"                                   $$escape_expand(\\n\\t)
+QMAKE_POST_LINK += powershell -command "mkdir -p $$PWD/../lib/XmlClasses"                        $$escape_expand(\\n\\t)
 QMAKE_POST_LINK += powershell -command "mkdir -p $$DESTDIR/../include"                           $$escape_expand(\\n\\t)
 QMAKE_POST_LINK += powershell -command "copy $$PWD/xmldocument.h $$DESTDIR/../include"           $$escape_expand(\\n\\t)
 QMAKE_POST_LINK += powershell -command "copy $$PWD/xmlobject.h $$DESTDIR/../include"             $$escape_expand(\\n\\t)
