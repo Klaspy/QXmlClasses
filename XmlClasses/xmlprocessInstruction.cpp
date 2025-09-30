@@ -33,4 +33,18 @@ XmlProcessInstruction::operator QString() const
     return QString("<?%1 %2?>").arg(m_target, m_data);
 }
 
+bool operator ==(const XmlProcessInstruction &instuction1,
+                const XmlProcessInstruction &instuction2) noexcept
+{
+    return instuction1.target() == instuction2.target() &&
+           instuction1.data() == instuction2.data();
+}
+
+bool operator !=(const XmlProcessInstruction &instuction1,
+                const XmlProcessInstruction &instuction2) noexcept
+{
+    return instuction1.target() != instuction2.target() ||
+           instuction1.data() != instuction2.data();
+}
+
 }

@@ -64,4 +64,36 @@ XmlProcessInstruction XmlValue::toInstruction() const
 XmlValue::XmlValue() :
     m_type {Type::Undefined}
 {}
+
+bool operator==(const XmlValue &value1, const XmlValue &value2) noexcept
+{
+    if (value1.type() != value2.type())
+        return false;
+
+    switch(value1.type())
+    {
+    case XmlClasses::XmlValue::Undefined: return true;
+    case XmlClasses::XmlValue::String: return value1.toString()     == value2.toString();
+    case XmlClasses::XmlValue::Object: return value1.toObject()     == value2.toObject();
+    case XmlClasses::XmlValue::XmlPI: return value1.toInstruction() == value2.toInstruction();
+    }
+
+    return false;
+}
+
+bool operator!=(const XmlValue &value1, const XmlValue &value2) noexcept
+{
+    if (value1.type() != value2.type())
+        return true;
+
+    switch(value1.type())
+    {
+    case XmlClasses::XmlValue::Undefined: return false;
+    case XmlClasses::XmlValue::String: return value1.toString()     != value2.toString();
+    case XmlClasses::XmlValue::Object: return value1.toObject()     != value2.toObject();
+    case XmlClasses::XmlValue::XmlPI: return value1.toInstruction() != value2.toInstruction();
+    }
+
+    return true;
+}
 }
