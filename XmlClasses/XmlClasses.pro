@@ -13,15 +13,20 @@ else {
     TARGET = XmlClasses
 }
 
+WINPWD = $$PWD
+WINPWD ~= s,/,\\,g
+WININCLUDE = $$DESTDIR/../include
+WININCLUDE ~= s,/,\\,g
+
 # message($$PWD/xmldocument.h $$DESTDIR/)
-QMAKE_POST_LINK += powershell -command "mkdir -p $$PWD/../lib"                                   $$escape_expand(\\n\\t)
-QMAKE_POST_LINK += powershell -command "mkdir -p $$PWD/../lib/XmlClasses"                        $$escape_expand(\\n\\t)
-QMAKE_POST_LINK += powershell -command "mkdir -p $$DESTDIR/../include"                           $$escape_expand(\\n\\t)
-QMAKE_POST_LINK += powershell -command "copy $$PWD/xmldocument.h $$DESTDIR/../include"           $$escape_expand(\\n\\t)
-QMAKE_POST_LINK += powershell -command "copy $$PWD/xmlobject.h $$DESTDIR/../include"             $$escape_expand(\\n\\t)
-QMAKE_POST_LINK += powershell -command "copy $$PWD/xmlprocessInstruction.h $$DESTDIR/../include" $$escape_expand(\\n\\t)
-QMAKE_POST_LINK += powershell -command "copy $$PWD/xmlvalue.h $$DESTDIR/../include"              $$escape_expand(\\n\\t)
-QMAKE_POST_LINK += powershell -command "copy $$PWD/XmlClasses $$DESTDIR/../include"              $$escape_expand(\\n\\t)
+QMAKE_POST_LINK += if not exist $$quote($$WINPWD\..\lib) $$QMAKE_MKDIR $$quote($$WINPWD\..\lib) $$escape_expand(\\n\\t)
+QMAKE_POST_LINK += if not exist $$quote($$WINPWD\..\lib\XmlClasses) $$QMAKE_MKDIR $$quote($$WINPWD\..\lib\XmlClasses) $$escape_expand(\\n\\t)
+QMAKE_POST_LINK += if not exist $$quote($$WINPWD\..\lib\XmlClasses\include) $$QMAKE_MKDIR $$quote($$WINPWD\..\lib\XmlClasses\include) $$escape_expand(\\n\\t)
+QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$WINPWD\xmldocument.h) $$quote($$WININCLUDE) $$escape_expand(\\n\\t)
+QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$WINPWD\xmlobject.h) $$quote($$WININCLUDE) $$escape_expand(\\n\\t)
+QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$WINPWD\xmlprocessInstruction.h) $$quote($$WININCLUDE) $$escape_expand(\\n\\t)
+QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$WINPWD\xmlvalue.h) $$quote($$WININCLUDE) $$escape_expand(\\n\\t)
+QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$WINPWD\XmlClasses) $$quote($$WININCLUDE) $$escape_expand(\\n\\t)
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -1,11 +1,14 @@
 #ifndef XMLDOCUMENT_H
 #define XMLDOCUMENT_H
-
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <QStack>
 
 #include "xmlobject.h"
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0 ,0)
+#include <QTextCodec>
+#endif
 
 namespace XmlClasses
 {
