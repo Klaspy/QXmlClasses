@@ -69,8 +69,8 @@ public:
     // get structure of object and its children (return object name and atribute name without current values)
     QString getStructure() const;
 
-    friend bool operator ==(const XmlObject &object1, const XmlObject &object2) noexcept;
-    friend bool operator !=(const XmlObject &object1, const XmlObject &object2) noexcept;
+    bool operator ==(const XmlObject &other) const;
+    bool operator !=(const XmlObject &other) const;
 
 private:
     QString m_name {"name"};

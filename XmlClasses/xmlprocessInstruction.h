@@ -28,10 +28,8 @@ public:
 
     operator QString() const;
 
-    friend bool operator ==(const XmlProcessInstruction &instuction1,
-                           const XmlProcessInstruction &instuction2) noexcept;
-    friend bool operator !=(const XmlProcessInstruction &instuction1,
-                           const XmlProcessInstruction &instuction2) noexcept;
+    bool operator ==(const XmlProcessInstruction &other) const;
+    bool operator !=(const XmlProcessInstruction &other) const;
 
 private:
     QString m_target;

@@ -6,14 +6,6 @@
 
 using namespace XmlClasses;
 
-class C{
-public:
-    bool operator==(const C& other) const
-    {
-        return true;
-    }
-};
-
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -28,11 +20,6 @@ int main(int argc, char *argv[])
     XmlObject root = document.object();
     qInfo() << "string representation of xml root object:\n" << root << "\n";
     qInfo() << "xml root object structure:\n" << root.getStructure() << "\n";
-
-    C c;
-    qDebug() << (c == c);
-    qDebug() << (root == root);
-    qDebug() << (XmlValue(root) == XmlValue(root));
 
     qInfo() << "all elements in root:";
     for (int i = 0; i < root.size(); i++)

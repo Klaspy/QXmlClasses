@@ -33,18 +33,13 @@ XmlProcessInstruction::operator QString() const
     return QString("<?%1 %2?>").arg(m_target, m_data);
 }
 
-bool operator ==(const XmlProcessInstruction &instuction1,
-                const XmlProcessInstruction &instuction2) noexcept
+bool XmlProcessInstruction::operator ==(const XmlProcessInstruction &other) const
 {
-    return instuction1.target() == instuction2.target() &&
-           instuction1.data() == instuction2.data();
+    return target() == other.target() && data() == other.data();
 }
 
-bool operator !=(const XmlProcessInstruction &instuction1,
-                const XmlProcessInstruction &instuction2) noexcept
+bool XmlProcessInstruction::operator !=(const XmlProcessInstruction &other) const
 {
-    return instuction1.target() != instuction2.target() ||
-           instuction1.data() != instuction2.data();
+    return target() != other.target() || data() != other.data();
 }
-
 }

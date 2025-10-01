@@ -241,6 +241,36 @@ QString XmlObject::getStructure() const
     return result;
 }
 
+bool XmlObject::operator ==(const XmlObject &other) const
+{
+    if (attributes() != other.attributes() || size() != other.size())
+        return false;
+
+    for (int i = 0, total = size(); i < total; ++i)
+    {
+        if (at(i) != other.at(i))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool XmlObject::operator !=(const XmlObject &other) const
+{
+    if (attributes() != other.attributes() || size() != other.size())
+        return true;
+
+    for (int i = 0, total = size(); i < total; ++i)
+    {
+        if (at(i) != other.at(i))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 QPair<bool, XmlObject> XmlObject::findR_private(const QString &name) const
 {
     for (int i = 0; i < m_children.size(); i++)
@@ -273,35 +303,5 @@ void XmlObject::validateAttrs()
             m_attributes.remove(attr);
         }
     }
-}
-
-bool operator==(const XmlObject &object1, const XmlObject &object2) noexcept
-{
-    if (object1.attributes() != object2.attributes() || object1.size() != object2.size())
-        return false;
-
-    for (int i = 0, total = object1.size(); i < total; ++i)
-    {
-        if (object1.at(i) != object2.at(i))
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-bool operator!=(const XmlObject &object1, const XmlObject &object2) noexcept
-{
-    if (object1.attributes() != object2.attributes() || object1.size() != object2.size())
-        return true;
-
-    for (int i = 0, total = object1.size(); i < total; ++i)
-    {
-        if (object1.at(i) != object2.at(i))
-        {
-            return true;
-        }
-    }
-    return false;
 }
 }

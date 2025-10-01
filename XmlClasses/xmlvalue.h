@@ -36,8 +36,8 @@ public:
     XmlObject toObject() const;
     XmlProcessInstruction toInstruction() const;
 
-    friend bool operator ==(const XmlValue &value1, const XmlValue &value2) noexcept;
-    friend bool operator !=(const XmlValue &value1, const XmlValue &value2) noexcept;
+    bool operator ==(const XmlValue &other) const;
+    bool operator !=(const XmlValue &other) const;
 
 private:
     XmlValue();
