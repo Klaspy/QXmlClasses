@@ -1,6 +1,7 @@
 QT = core
 
 CONFIG += c++17
+TARGET = Example
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -15,7 +16,7 @@ RESOURCES += \
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../lib/XmlClasses/lib/ -lXmlClasses
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../lib/XmlClasses/lib/ -lXmlClassesd
-else:unix:!macx: LIBS += -L$$PWD/../XmlClasses/ -lXmlClasses
+else:unix:!macx: LIBS += -L$$PWD/../lib/XmlClasses/lib/ -lXmlClasses
 
 INCLUDEPATH += $$PWD/../lib/XmlClasses/include
 DEPENDPATH += $$PWD/../lib/XmlClasses/include
