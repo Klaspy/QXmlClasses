@@ -2,6 +2,8 @@
 
 #include <QDebug>
 
+#include "xmlprocessInstruction.h"
+
 namespace XmlClasses
 {
 XmlDocument::XmlDocument() {

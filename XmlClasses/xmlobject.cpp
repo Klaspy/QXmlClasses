@@ -1,5 +1,10 @@
 #include "xmlobject.h"
+
+#include <QHash>
+#include <QRegularExpression>
+
 #include "xmlvalue.h"
+#include "xmlprocessInstruction.h"
 
 namespace XmlClasses
 {
@@ -30,6 +35,8 @@ XmlObject::XmlObject(const QString &name, std::initializer_list<std::pair<QStrin
     validateAttrs();
 }
 
+QString XmlObject::name() const {return m_name;}
+
 void XmlObject::setName(const QString &newName)
 {
     if (nameExp.match(newName).hasMatch())
@@ -40,12 +47,94 @@ void XmlObject::setName(const QString &newName)
     validateAttrs();
 }
 
+QHash<QString, QString> XmlObject::attributes() const {return m_attributes;}
+
+QString XmlObject::getAttribute(const QString &key) const {return m_attributes.value(key);}
+
 void XmlObject::setAttribute(const QString &key, const QString &value)
 {
     if (attrExp.match(key).hasMatch())
     {
         m_attributes.insert(key, value);
     }
+}
+
+void XmlObject::removeAttribute(const QString &key) {m_attributes.remove(key);}
+
+int XmlObject::size() const                {return m_children.size();}
+
+bool XmlObject::isEmpty() const            {return m_children.isEmpty();}
+
+const XmlValue &XmlObject::at(int i) const {return m_children.at(i);}
+
+XmlValue &XmlObject::operator[](int i)     {return m_children[i];}
+
+XmlValue &XmlObject::first()               {return m_children.first();}
+
+const XmlValue &XmlObject::first() const   {return m_children.first();}
+
+XmlValue &XmlObject::last()                {return m_children.last();}
+
+const XmlValue &XmlObject::last() const    {return m_children.last();}
+
+void XmlObject::append(const XmlObject &obj)
+{
+    m_children.append(XmlValue(obj));
+}
+
+void XmlObject::append(const QString &string)
+{
+    m_children.append(XmlValue(string));
+}
+
+void XmlObject::append(const XmlProcessInstruction &instruction)
+{
+    m_children.append(XmlValue(instruction));
+}
+
+void XmlObject::append(const XmlValue &value)
+{
+    m_children.append(value);
+}
+
+void XmlObject::prepend(const XmlObject &obj)
+{
+    m_children.prepend(XmlValue(obj));
+}
+
+void XmlObject::prepend(const QString &string)
+{
+    m_children.prepend(XmlValue(string));
+}
+
+void XmlObject::prepend(const XmlProcessInstruction &instruction)
+{
+    m_children.prepend(XmlValue(instruction));
+}
+
+void XmlObject::prepend(const XmlValue &value)
+{
+    m_children.prepend(value);
+}
+
+void XmlObject::insert(int i, const XmlObject &obj)
+{
+    m_children.insert(i, XmlValue(obj));
+}
+
+void XmlObject::insert(int i, const QString &string)
+{
+    m_children.insert(i, XmlValue(string));
+}
+
+void XmlObject::insert(int i, const XmlProcessInstruction &instruction)
+{
+    m_children.insert(i, XmlValue(instruction));
+}
+
+void XmlObject::insert(int i, const XmlValue &value)
+{
+    m_children.insert(i, value);
 }
 
 XmlObject XmlObject::find(const QString &name) const
@@ -154,6 +243,8 @@ bool XmlObject::containsR(const QString &name) const
 
     return false;
 }
+
+void XmlObject::clear() {m_children.clear();}
 
 XmlObject::operator QString() const
 {

@@ -1,13 +1,18 @@
 #ifndef XMLOBJECT_H
 #define XMLOBJECT_H
 
-#include <QHash>
-#include <QRegularExpression>
+#include <QMetaType>
 
+#include "XmlClassesGlobal.h"
 #include "xmlvalue.h"
+
+class QRegularExpression;
 
 namespace XmlClasses
 {
+
+class XmlProcessInstruction;
+
 class XML_CLASSES_EXPORT XmlObject
 {
 public:
@@ -15,40 +20,40 @@ public:
     XmlObject(const QString &name);
     XmlObject(const QString &name, std::initializer_list<std::pair<QString, QString>> attributes);
 
-    QString name() const {return m_name;}
+    QString name() const;
     void setName(const QString &newName);
 
     /// attributes manipulate functions
-    QHash<QString, QString> attributes() const {return m_attributes;}
-    QString getAttribute(const QString &key) const {return m_attributes.value(key);}
+    QHash<QString, QString> attributes() const;
+    QString getAttribute(const QString &key) const;
     void setAttribute(const QString &key, const QString &value);
-    void removeAttribute(const QString &key) {m_attributes.remove(key);}
+    void removeAttribute(const QString &key);
     ///
 
     /// children manipulate functions
-    int size() const                {return m_children.size();}
-    bool isEmpty() const            {return m_children.isEmpty();}
-    const XmlValue &at(int i) const {return m_children.at(i);}
-    XmlValue &operator[](int i)     {return m_children[i];}
-    XmlValue &first()               {return m_children.first();}
-    const XmlValue &first() const   {return m_children.first();}
-    XmlValue &last()                {return m_children.last();}
-    const XmlValue &last() const    {return m_children.last();}
+    int size() const;
+    bool isEmpty() const;
+    const XmlValue &at(int i) const;
+    XmlValue &operator[](int i);
+    XmlValue &first();
+    const XmlValue &first() const;
+    XmlValue &last();
+    const XmlValue &last() const;
 
-    void append(const XmlObject &obj)                            {m_children.append(XmlValue(obj));}
-    void append(const QString &string)                           {m_children.append(XmlValue(string));}
-    void append(const XmlProcessInstruction &instruction)        {m_children.append(XmlValue(instruction));}
-    void append(const XmlValue &value)                           {m_children.append(value);}
+    void append(const XmlObject &obj);
+    void append(const QString &string);
+    void append(const XmlProcessInstruction &instruction);
+    void append(const XmlValue &value);
 
-    void prepend(const XmlObject &obj)                           {m_children.prepend(XmlValue(obj));}
-    void prepend(const QString &string)                          {m_children.prepend(XmlValue(string));}
-    void prepend(const XmlProcessInstruction &instruction)       {m_children.prepend(XmlValue(instruction));}
-    void prepend(const XmlValue &value)                           {m_children.prepend(value);}
+    void prepend(const XmlObject &obj);
+    void prepend(const QString &string);
+    void prepend(const XmlProcessInstruction &instruction);
+    void prepend(const XmlValue &value);
 
-    void insert(int i, const XmlObject &obj)                     {m_children.insert(i, XmlValue(obj));}
-    void insert(int i, const QString &string)                    {m_children.insert(i, XmlValue(string));}
-    void insert(int i, const XmlProcessInstruction &instruction) {m_children.insert(i, XmlValue(instruction));}
-    void insert(int i, const XmlValue &value)                    {m_children.insert(i, value);}
+    void insert(int i, const XmlObject &obj);
+    void insert(int i, const QString &string);
+    void insert(int i, const XmlProcessInstruction &instruction);
+    void insert(int i, const XmlValue &value);
 
     XmlObject find(const QString &name) const;
     XmlObject findR(const QString &name) const;
@@ -59,7 +64,7 @@ public:
     bool contains(const QString &name) const;
     bool containsR(const QString &name) const;
 
-    void clear() {m_children.clear();}
+    void clear();
     ///
 
     operator QString() const;

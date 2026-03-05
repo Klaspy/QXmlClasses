@@ -1,15 +1,12 @@
 #ifndef XMLPROCESSINSTRUCTION_H
 #define XMLPROCESSINSTRUCTION_H
 
-#include <QString>
-#include <QRegularExpression>
 #include <QObject>
 
-#if defined(XML_CLASSES_LIBRARY)
-#define XML_CLASSES_EXPORT Q_DECL_EXPORT
-#else
-#define XML_CLASSES_EXPORT Q_DECL_IMPORT
-#endif
+#include "XmlClassesGlobal.h"
+
+class QString;
+class QRegularExpression;
 
 namespace XmlClasses
 {

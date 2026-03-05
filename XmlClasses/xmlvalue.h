@@ -1,14 +1,16 @@
 #ifndef XMLVALUE_H
 #define XMLVALUE_H
 
-#include <QString>
 #include <QVariant>
 
-#include "xmlprocessInstruction.h"
+#include "XmlClassesGlobal.h"
+
+class QString;
 
 namespace XmlClasses
 {
 class XmlObject;
+class XmlProcessInstruction;
 
 class XML_CLASSES_EXPORT XmlValue
 {

@@ -1,8 +1,9 @@
 #include <QCoreApplication>
-#include <QFile>
 #include <QDebug>
+#include <QFile>
 
-#include <XmlClasses>
+#include <xmldocument.h>
+#include <xmlprocessInstruction.h>
 
 using namespace XmlClasses;
 
@@ -22,28 +23,22 @@ int main(int argc, char *argv[])
     qInfo() << "xml root object structure:\n" << root.getStructure() << "\n";
 
     qInfo() << "all elements in root:";
-    for (int i = 0; i < root.size(); i++)
-    {
+    for (int i = 0; i < root.size(); i++) {
         XmlValue childValue = root.at(i);
-        switch (childValue.type())
-        {
-        case XmlValue::String:
-        {
+        switch (childValue.type()) {
+        case XmlValue::String: {
             qInfo() << "string:" << childValue.toString();
             break;
         }
-        case XmlValue::Object:
-        {
+        case XmlValue::Object: {
             qInfo() << "xml element:" << childValue.toObject().name();
             break;
         }
-        case XmlValue::XmlPI:
-        {
+        case XmlValue::XmlPI: {
             qInfo() << "process instruction:" << childValue.toInstruction().target();
             break;
         }
-        case XmlValue::Undefined:
-        {
+        case XmlValue::Undefined: {
             // never reach in valid document
             qInfo() << "invalid value";
         }
@@ -57,8 +52,7 @@ int main(int argc, char *argv[])
     QHash<QString, QString> attributes = attrsObject.attributes();
 
     qInfo() << "attributes of xml element" << attrsObject.name();
-    foreach (const QString &key, attributes.keys())
-    {
+    foreach (const QString &key, attributes.keys()) {
         qInfo().nospace() << key << ": " << attributes.value(key);
     }
     qInfo(" ");
@@ -67,8 +61,7 @@ int main(int argc, char *argv[])
     QList<XmlObject> list = root.findAllR("children");
 
     qInfo() << "list of elements with name \"children\":";
-    for (int i = 0; i < list.size(); i++)
-    {
+    for (int i = 0; i < list.size(); i++) {
         qInfo() << list.at(i);
     }
     qInfo(" ");

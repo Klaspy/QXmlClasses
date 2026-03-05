@@ -1,5 +1,9 @@
 #include "xmlvalue.h"
+
+#include <QString>
+
 #include "xmlobject.h"
+#include "xmlprocessInstruction.h"
 
 namespace XmlClasses
 {

@@ -1,5 +1,8 @@
 #include "xmlprocessInstruction.h"
 
+#include <QString>
+#include <QRegularExpression>
+
 namespace XmlClasses
 {
 
