@@ -44,6 +44,9 @@ public:
     void append(const QString &string);
     void append(const XmlProcessInstruction &instruction);
     void append(const XmlValue &value);
+    
+    QList<XmlValue>::const_iterator begin() const {return m_children.begin();}
+    QList<XmlValue>::const_iterator end()   const {return m_children.end();}
 
     void prepend(const XmlObject &obj);
     void prepend(const QString &string);

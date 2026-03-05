@@ -192,8 +192,10 @@ XmlDocument XmlDocument::readXml(QXmlStreamReader &reader, XmlParseError *error)
         }
         case QXmlStreamReader::Invalid:
         {
+#ifdef QT_DEBUG
             qCritical() << "QXmlDocument: error while parsing data:" << reader.errorString()
                         << "; line" << reader.lineNumber() << ", column" << reader.columnNumber();
+#endif
             if (error != nullptr)
             {
                 error->error  = reader.error();
@@ -207,8 +209,10 @@ XmlDocument XmlDocument::readXml(QXmlStreamReader &reader, XmlParseError *error)
         {
             if (reader.tokenType() != QXmlStreamReader::Comment)
             {
+#ifdef QT_DEBUG
                 qCritical() << "unresolved token" << reader.tokenString()
                             << "; line" << reader.lineNumber() << ", column" << reader.columnNumber();
+#endif
             }
         }
         }
