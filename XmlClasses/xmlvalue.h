@@ -17,6 +17,7 @@ class XML_CLASSES_EXPORT XmlValue
     friend class XmlObject;
 
 public:
+    XmlValue(const char *chArr);
     XmlValue(const QString &text);
     XmlValue(const XmlObject &object);
     XmlValue(const XmlProcessInstruction &pi);

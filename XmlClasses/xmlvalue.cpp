@@ -7,6 +7,13 @@
 
 namespace XmlClasses
 {
+XmlValue::XmlValue(const char *chArr) :
+    m_value {QString(chArr)},
+    m_type {Type::String}
+{
+
+}
+
 XmlValue::XmlValue(const QString &string) :
     m_value {string},
     m_type {Type::String}

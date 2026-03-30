@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     // find first xml element with name in children list
     XmlObject attrsObject = root.find("attributesElement");
 
-    QHash<QString, QString> attributes = attrsObject.attributes();
+    QMap<QString, QString> attributes = attrsObject.attributes();
 
     qInfo() << "attributes of xml element" << attrsObject.name();
     foreach (const QString &key, attributes.keys()) {
